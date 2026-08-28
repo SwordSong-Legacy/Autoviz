@@ -1,4 +1,4 @@
-**GitHub:** [https://github.com/SwordSong-Legacy/COMP4502](https://github.com/SwordSong-Legacy/COMP4502)
+**GitHub:** [https://github.com/SwordSong-Legacy/COMP4502](https://github.com/SwordSong-Legacy/Autoviz)
 
 # Insight AutoViz
 
