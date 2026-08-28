@@ -1,6 +1,9 @@
 """Tests for core modules."""
 
-from app.core.config import settings
+import pytest
+from pydantic import ValidationError as PydanticValidationError
+
+from app.core.config import Settings, settings
 from app.core.exceptions import (
     AlreadyExistsError,
     AppException,
@@ -29,6 +32,25 @@ class TestSettings:
     def test_cors_origins_is_list(self):
         """Test CORS origins is a list."""
         assert isinstance(settings.CORS_ORIGINS, list)
+
+    def test_secret_key_is_required(self, monkeypatch):
+        """Test startup fails clearly when SECRET_KEY is missing."""
+        monkeypatch.delenv("SECRET_KEY", raising=False)
+
+        with pytest.raises(PydanticValidationError, match="SECRET_KEY"):
+            Settings(_env_file=None)
+
+    @pytest.mark.parametrize(
+        "secret_key",
+        [
+            "too-short",
+            "replace-with-a-unique-random-secret-key",
+        ],
+    )
+    def test_secret_key_rejects_unsafe_values(self, secret_key):
+        """Test short and placeholder JWT secrets are rejected."""
+        with pytest.raises(PydanticValidationError, match="SECRET_KEY"):
+            Settings(_env_file=None, SECRET_KEY=secret_key)
 
 
 class TestExceptions:

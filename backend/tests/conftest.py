@@ -6,11 +6,15 @@ See: https://anyio.readthedocs.io/en/stable/testing.html
 """
 # ruff: noqa: I001 - Imports structured for Jinja2 template conditionals
 
+import os
 from collections.abc import AsyncGenerator
 from unittest.mock import AsyncMock
 
 import pytest
 from httpx import ASGITransport, AsyncClient
+
+# Settings are initialized during app import. Tests use an explicit non-production key.
+os.environ.setdefault("SECRET_KEY", "test-only-signing-key-not-for-production")
 
 from app.main import app
 from app.api.deps import get_db_session

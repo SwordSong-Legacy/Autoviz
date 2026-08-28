@@ -16,14 +16,12 @@ full-stack workflows in a production deployment serving more than 100 users.
 
 <table>
   <tr>
-    <td colspan="2">
+    <td width="50%">
       <img src="assets/readme/visualization-gallery.png" alt="Autoviz visualization results gallery" width="100%" />
       <br />
       <sub><strong>Visualization gallery.</strong> Review generated charts together, search results, and surface pipeline issues.</sub>
     </td>
-  </tr>
-  <tr>
-    <td colspan="2">
+    <td width="50%">
       <img src="assets/readme/structured-report.png" alt="Autoviz structured insight report with generated charts and narrative findings" width="100%" />
       <br />
       <sub><strong>Structured report.</strong> Consolidate generated visualizations and AI-written findings into a reviewable insight summary.</sub>

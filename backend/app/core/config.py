@@ -44,9 +44,22 @@ class Settings(BaseSettings):
     POSTGRES_SSLMODE: str = ""  # Set to "require" for Cloud SQL public IP
 
     # === JWT Authentication ===
-    SECRET_KEY: str = "7f8a9b2c3d4e5f60718293a4b5c6d7e8091a2b3c4d5e6f708192a3b4c5d6e7f8"
+    SECRET_KEY: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
     ALGORITHM: str = "HS256"
+
+    @field_validator("SECRET_KEY")
+    @classmethod
+    def validate_secret_key(cls, value: str) -> str:
+        """Require a strong, environment-provided JWT signing secret."""
+        secret = value.strip()
+        if len(secret) < 32:
+            raise ValueError("SECRET_KEY must contain at least 32 characters")
+
+        normalized = secret.lower()
+        if any(marker in normalized for marker in ("replace-with", "change-me", "your-secret")):
+            raise ValueError("SECRET_KEY must be replaced with a unique random value")
+        return secret
 
     def _build_db_url(self, *, async_driver: bool) -> str:
         """Build PostgreSQL connection URL (async or sync).
@@ -127,8 +140,12 @@ class Settings(BaseSettings):
 
     # === Visualization Selector (task feasibility + IG filter) ===
     VIZ_SELECTOR_ENABLED: bool = False
-    VIZ_SELECTOR_MAX_MISSING_RATE: float = 0.7  # Reject tasks whose primary feature exceeds this missing fraction
-    VIZ_SELECTOR_MIN_IG_SCORE: float = 0.2  # Reject tasks scoring below this information-gain threshold
+    VIZ_SELECTOR_MAX_MISSING_RATE: float = (
+        0.7  # Reject tasks whose primary feature exceeds this missing fraction
+    )
+    VIZ_SELECTOR_MIN_IG_SCORE: float = (
+        0.2  # Reject tasks scoring below this information-gain threshold
+    )
 
     # === CORS ===
     CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:8000"]
