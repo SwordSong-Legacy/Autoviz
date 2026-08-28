@@ -12,6 +12,30 @@ full-stack workflows in a production deployment serving more than 100 users.
 
 [![Demo Video](https://img.youtube.com/vi/qeitwrWg6WQ/maxresdefault.jpg)](https://youtu.be/qeitwrWg6WQ)
 
+## Product Experience
+
+<table>
+  <tr>
+    <td colspan="2">
+      <img src="assets/readme/visualization-gallery.png" alt="Out of Bits visualization results gallery" width="100%" />
+      <br />
+      <sub><strong>Visualization gallery.</strong> Review generated charts together, search results, and surface pipeline issues.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="assets/readme/product-heatmap-insight.png" alt="Generated heatmap with an AI-written insight panel" width="100%" />
+      <br />
+      <sub><strong>Chart-level insight.</strong> Open a generated visualization beside its AI-written interpretation and download controls.</sub>
+    </td>
+    <td width="50%">
+      <img src="assets/readme/conversational-chart-generation.png" alt="Conversational chart generation in Out of Bits" width="100%" />
+      <br />
+      <sub><strong>Conversational analysis.</strong> Request a chart in natural language and receive the generated result in the same analysis thread.</sub>
+    </td>
+  </tr>
+</table>
+
 ## Features
 
 - **Hierarchical multi-agent reasoning** — a PydanticAI Planner/Worker/Critic workflow
