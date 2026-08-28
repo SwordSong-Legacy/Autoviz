@@ -1,0 +1,314 @@
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  /* ── Light mode (default) ── */
+  --color-background: #f0ede6;
+  --color-surface: #e5e1d8;
+  --color-border: #ccc8be;
+  --color-muted: #888479;
+  --color-muted-foreground: #888479;
+
+  --color-foreground: #111108;
+  --color-foreground-2: #2a2720;
+
+  --color-card: #f0ede6;
+  --color-card-foreground: #111108;
+  --color-popover: #f0ede6;
+  --color-popover-foreground: #111108;
+
+  --color-primary: #111108;
+  --color-primary-foreground: #f0ede6;
+
+  --color-secondary: #e5e1d8;
+  --color-secondary-foreground: #111108;
+
+  /* accent = forest green (interactive elements) */
+  --color-accent: #1a6b3c;
+  --color-accent-foreground: #f0ede6;
+  --color-accent-dark: #0d3d22;
+  --color-accent-light: #e8f5ee;
+
+  --color-input: #e5e1d8;
+  --color-ring: #1a6b3c;
+
+  --color-destructive: #e63c2f;
+  --color-destructive-foreground: #f0ede6;
+
+  --color-warning: #d97706;
+  --color-warning-foreground: #f0ede6;
+
+  --color-info: #2563eb;
+  --color-info-foreground: #f0ede6;
+
+  --radius: 0rem;
+
+  /* Font families */
+  --font-display: "Barlow Condensed", sans-serif;
+  --font-sans: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+/* ── Dark mode ── */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --color-background: #111108;
+    --color-surface: #1a1a10;
+    --color-border: #2a2a20;
+    --color-muted: #555044;
+    --color-muted-foreground: #555044;
+
+    --color-foreground: #f0ede6;
+    --color-foreground-2: #ccc8be;
+
+    --color-card: #1a1a10;
+    --color-card-foreground: #f0ede6;
+    --color-popover: #1a1a10;
+    --color-popover-foreground: #f0ede6;
+
+    --color-primary: #f0ede6;
+    --color-primary-foreground: #111108;
+
+    --color-secondary: #2a2a20;
+    --color-secondary-foreground: #f0ede6;
+
+    /* accent stays the same in dark mode */
+    --color-accent: #1a6b3c;
+    --color-accent-foreground: #f0ede6;
+    --color-accent-dark: #0d3d22;
+    --color-accent-light: #0a2818;
+
+    --color-input: #2a2a20;
+    --color-ring: #1a6b3c;
+
+    --color-destructive: #e63c2f;
+    --color-destructive-foreground: #f0ede6;
+  }
+}
+
+:root.dark {
+  --color-background: #111108;
+  --color-surface: #1a1a10;
+  --color-border: #2a2a20;
+  --color-muted: #555044;
+  --color-muted-foreground: #555044;
+
+  --color-foreground: #f0ede6;
+  --color-foreground-2: #ccc8be;
+
+  --color-card: #1a1a10;
+  --color-card-foreground: #f0ede6;
+  --color-popover: #1a1a10;
+  --color-popover-foreground: #f0ede6;
+
+  --color-primary: #f0ede6;
+  --color-primary-foreground: #111108;
+
+  --color-secondary: #2a2a20;
+  --color-secondary-foreground: #f0ede6;
+
+  --color-accent: #1a6b3c;
+  --color-accent-foreground: #f0ede6;
+  --color-accent-dark: #0d3d22;
+  --color-accent-light: #0a2818;
+
+  --color-input: #2a2a20;
+  --color-ring: #1a6b3c;
+
+  --color-destructive: #e63c2f;
+  --color-destructive-foreground: #f0ede6;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+  }
+}
+
+/* ── Scrollbars ── */
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--color-muted) 40%, transparent) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--color-muted) 40%, transparent);
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--color-muted) 60%, transparent);
+  }
+
+  .scrollbar-table {
+    scrollbar-width: auto;
+    scrollbar-color: var(--color-border) var(--color-surface);
+  }
+  .scrollbar-table::-webkit-scrollbar {
+    width: 6px;
+    height: 8px;
+  }
+  .scrollbar-table::-webkit-scrollbar-track {
+    background: var(--color-surface);
+  }
+  .scrollbar-table::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+  }
+  .scrollbar-table::-webkit-scrollbar-thumb:hover {
+    background: var(--color-muted);
+  }
+}
+
+/* ── Code syntax highlighting ── */
+@layer base {
+  pre code.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0;
+    background: transparent;
+  }
+  code.hljs {
+    padding: 3px 5px;
+  }
+
+  .hljs {
+    color: #24292e;
+  }
+  .hljs-comment,
+  .hljs-quote {
+    color: #6a737d;
+    font-style: italic;
+  }
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-literal {
+    color: #d73a49;
+  }
+  .hljs-name,
+  .hljs-tag {
+    color: #22863a;
+  }
+  .hljs-attr,
+  .hljs-attribute {
+    color: #6f42c1;
+  }
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-regexp,
+  .hljs-link {
+    color: #005cc5;
+  }
+  .hljs-string,
+  .hljs-symbol,
+  .hljs-bullet {
+    color: #032f62;
+  }
+  .hljs-number {
+    color: #005cc5;
+  }
+  .hljs-meta,
+  .hljs-built_in,
+  .hljs-builtin-name,
+  .hljs-type,
+  .hljs-params {
+    color: #e36209;
+  }
+  .hljs-function .hljs-title {
+    color: #6f42c1;
+  }
+  .hljs-addition {
+    color: #22863a;
+    background-color: #f0fff4;
+  }
+  .hljs-deletion {
+    color: #b31d28;
+    background-color: #ffeef0;
+  }
+
+  .dark .hljs,
+  :root:not(.light) .hljs {
+    color: #e1e4e8;
+  }
+  .dark .hljs-comment,
+  :root:not(.light) .hljs-comment,
+  .dark .hljs-quote,
+  :root:not(.light) .hljs-quote {
+    color: #6a737d;
+  }
+  .dark .hljs-keyword,
+  :root:not(.light) .hljs-keyword,
+  .dark .hljs-selector-tag,
+  :root:not(.light) .hljs-selector-tag,
+  .dark .hljs-literal,
+  :root:not(.light) .hljs-literal {
+    color: #ff7b72;
+  }
+  .dark .hljs-name,
+  :root:not(.light) .hljs-name,
+  .dark .hljs-tag,
+  :root:not(.light) .hljs-tag {
+    color: #7ee787;
+  }
+  .dark .hljs-attr,
+  :root:not(.light) .hljs-attr,
+  .dark .hljs-attribute,
+  :root:not(.light) .hljs-attribute {
+    color: #d2a8ff;
+  }
+  .dark .hljs-string,
+  :root:not(.light) .hljs-string,
+  .dark .hljs-symbol,
+  :root:not(.light) .hljs-symbol,
+  .dark .hljs-bullet,
+  :root:not(.light) .hljs-bullet {
+    color: #a5d6ff;
+  }
+  .dark .hljs-number,
+  :root:not(.light) .hljs-number,
+  .dark .hljs-variable,
+  :root:not(.light) .hljs-variable,
+  .dark .hljs-template-variable,
+  :root:not(.light) .hljs-template-variable,
+  .dark .hljs-regexp,
+  :root:not(.light) .hljs-regexp,
+  .dark .hljs-link,
+  :root:not(.light) .hljs-link {
+    color: #79c0ff;
+  }
+  .dark .hljs-meta,
+  :root:not(.light) .hljs-meta,
+  .dark .hljs-built_in,
+  :root:not(.light) .hljs-built_in,
+  .dark .hljs-type,
+  :root:not(.light) .hljs-type,
+  .dark .hljs-params,
+  :root:not(.light) .hljs-params {
+    color: #ffa657;
+  }
+  .dark .hljs-function .hljs-title,
+  :root:not(.light) .hljs-function .hljs-title {
+    color: #d2a8ff;
+  }
+  .dark .hljs-addition,
+  :root:not(.light) .hljs-addition {
+    color: #aff5b4;
+    background-color: #033a16;
+  }
+  .dark .hljs-deletion,
+  :root:not(.light) .hljs-deletion {
+    color: #ffdcd7;
+    background-color: #67060c;
+  }
+}
