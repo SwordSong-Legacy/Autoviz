@@ -1,8 +1,8 @@
-# Out of Bits
+# Autoviz
 
 **AI-powered, multi-agent data visualization and insight platform**
 
-Out of Bits is a multi-agent data intelligence platform built for non-technical users.
+Autoviz is a multi-agent data intelligence platform built for non-technical users.
 It turns CSV, JSON, or URL-hosted tabular data into automated visualizations, structured
 reports, and a natural-language analytics experience. The system combines hierarchical
 agent orchestration, sandboxed Python execution, context engineering, and persistent
