@@ -2,8 +2,8 @@
  * Application constants.
  */
 
-export const APP_NAME = "autoviz";
-export const APP_DESCRIPTION = "AutoViz - revolution to visualisation";
+export const APP_NAME = "Out of Bits";
+export const APP_DESCRIPTION = "AI-powered data visualization and insight platform";
 
 // API Routes (Next.js internal routes)
 export const API_ROUTES = {

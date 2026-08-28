@@ -1,109 +1,122 @@
-**GitHub:** [https://github.com/SwordSong-Legacy/Autoviz](https://github.com/SwordSong-Legacy/Autoviz)
+# Out of Bits
 
-# Insight AutoViz
+**AI-powered, multi-agent data visualization and insight platform**
 
-**AI-Powered Multi-Agent Visualisation Dashboard Generator**
-
-[![Final Year Project](https://img.shields.io/badge/FYP-2026-blue)](.)
-
-Insight AutoViz is a modular multi-agent AI system that enables **end-to-end automated insight generation**. Users upload a CSV/JSON file or paste a URL and receive an automated dashboard of visualizations and data-driven insights — without writing any code or prompts.
-
----
+Out of Bits is a multi-agent data intelligence platform built for non-technical users.
+It turns CSV, JSON, or URL-hosted tabular data into automated visualizations, structured
+reports, and a natural-language analytics experience. The system combines hierarchical
+agent orchestration, sandboxed Python execution, context engineering, and persistent
+full-stack workflows in a production deployment serving more than 100 users.
 
 ## Demo
 
 [![Demo Video](https://img.youtube.com/vi/qeitwrWg6WQ/maxresdefault.jpg)](https://youtu.be/qeitwrWg6WQ)
 
----
-
 ## Features
 
-- **Zero-prompt analysis** — upload a dataset and get a full dashboard automatically
-- **Multi-format ingestion** — CSV upload, JSON upload, and URL ingestion with fallback pipeline
-- **Multi-agent visualization pipeline** — plan → filter → code → critique → annotate → report
-- **Feature engineering** — automated semantic type detection and derived feature generation
-- **Interactive chat** — ask follow-up questions about your data via WebSocket streaming
-- **Data quiz** — AI-generated questions to verify understanding of the dataset
-- **Insight report** — structured narrative report synthesized from all chart annotations
-- **Export** — download reports as PDF or DOCX
-- **Guest mode** — try the platform without creating an account
-- **i18n** — English and Chinese interface
-- **Analytics** — per-pipeline run timing and behavior event tracking
-
----
+- **Hierarchical multi-agent reasoning** — a PydanticAI Planner/Worker/Critic workflow
+  combines parallel task execution with dynamic replanning for visualization generation
+  and review
+- **End-to-end data workflows** — multi-step orchestration covers data transformation,
+  LLM-driven feature engineering, visualization, and structured reporting for datasets
+  averaging more than 100K rows
+- **Conversational analytics** — intent routing, tool calling, context engineering, and
+  model routing support natural-language analysis while reducing token usage by 29%
+- **Sandboxed execution** — generated feature-engineering and chart code runs in Modal
+  Sandboxes built from a cached data-science image with CJK font support
+- **Iterative quality control** — bounded code retries and semantic replanning contribute
+  to a 98%+ task success rate with 72-second P99 latency
+- **Streaming full-stack product** — FastAPI HTTP/WebSocket endpoints feed a Next.js
+  analysis and chat interface backed by async PostgreSQL persistence
+- **Production workflows** — JWT/OAuth authentication, guest mode, English/Chinese UI,
+  user-supplied OpenRouter keys, quizzes, PDF/DOCX export, and analytics instrumentation
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| Backend | FastAPI, Python 3.12+, PydanticAI, PostgreSQL (async SQLAlchemy) |
-| Frontend | Next.js 15, React 19, TypeScript, Tailwind CSS v4 |
-| AI | LLMs via OpenRouter (Claude, GPT-4o, etc.) |
-| Sandbox | e2b cloud code interpreter (CJK-font template) |
-| Data | Pandas, Matplotlib, Seaborn |
-| Auth | JWT (HTTP-only cookies) + OAuth |
-| Deployment | Google Cloud Run (backend) + Firebase Hosting (frontend) |
-
----
+| Layer          | Technology                                                   |
+| -------------- | ------------------------------------------------------------ |
+| Backend        | FastAPI, Python 3.12+, PydanticAI, async SQLAlchemy/SQLModel |
+| Frontend       | Next.js 15, React 19, TypeScript, Tailwind CSS v4            |
+| AI             | OpenRouter-backed language models                            |
+| Code execution | Modal Sandboxes                                              |
+| Data           | PostgreSQL, Pandas, Matplotlib, Seaborn                      |
+| Auth           | JWT in HTTP-only cookies, OAuth                              |
+| Hosting        | Google Cloud Run backend, Firebase Hosting frontend          |
 
 ## Architecture
 
-```
-HTTP / WebSocket → API Route → Service → Repository → PostgreSQL
-                                  ↓
-              WebSocket ← Agent Pipeline ← PydanticAI Agents
-                                  ↓
-                         e2b Sandbox (chart code execution)
+```text
+Browser (Next.js 15)
+  ├─ HTTP API proxy ───────────────┐
+  └─ direct WebSocket stream ──────┤
+                                   ▼
+                            FastAPI routes
+                              ├─ Services ── Repositories ── PostgreSQL
+                              └─ Agent orchestration (PydanticAI)
+                                   ├─ OpenRouter language models
+                                   └─ Modal Sandboxes
+                                        ├─ feature engineering code
+                                        └─ visualization code → PNG
 ```
 
-**Visualization pipeline** (per turn):
+FastAPI owns request validation, authentication, and streaming lifecycle concerns.
+Services coordinate domain behavior, repositories isolate persistence, and the agent
+pipeline delegates generated code to Modal rather than executing it on the API host.
 
-```
-viz_main_agent → viz_selector → viz_sub_agent → viz_critic_agent → viz_annotation_agent → report_agent
-  (plan tasks)   (filter)       (code + run)    (accept/reject)    (write annotation)    (report)
+## Visualization Pipeline
+
+```text
+tabular input
+  → normalize and summarize
+  → generate feature-engineering code → Modal → enhanced CSV
+  → Planner creates chart tasks
+  → selector checks feasibility and information gain (when enabled)
+  → Workers execute tasks concurrently
+       → generate Python → Modal renders PNG → Critic reviews output
+       → code failure: retry with feedback
+       → semantic rejection: dynamically plan a replacement task
+       → accepted chart: generate annotation and persist result
+  → synthesize accepted results into a structured report
 ```
 
----
+Configurable retry and semantic-replan limits bound the workflow while allowing
+recoverable execution errors and unsuitable chart choices to be corrected.
 
 ## Getting Started
 
 ### Prerequisites
 
-- [Python 3.12+](https://www.python.org/) with [uv](https://docs.astral.sh/uv/)
-- [Node.js 18+](https://nodejs.org/) with [Bun](https://bun.sh/)
-- [PostgreSQL 16](https://www.postgresql.org/) (or Docker)
+- [Python 3.12+](https://www.python.org/) and [uv](https://docs.astral.sh/uv/)
+- [Node.js 18+](https://nodejs.org/) and [Bun](https://bun.sh/)
+- PostgreSQL 16, locally or through Docker
+- Modal credentials, plus either a project OpenRouter key or a key supplied in the UI
 
-### 1. Clone
-
-```bash
-git clone https://github.com/SwordSong-Legacy/COMP4502.git
-cd autoviz
-```
-
-### 2. Backend
+### 1. Clone and configure
 
 ```bash
-cd backend
-
-# Install dependencies
-uv sync
-
-# Configure environment
+git clone https://github.com/SwordSong-Legacy/Autoviz.git
+cd Autoviz
 cp .env.example .env
-# Edit .env: set POSTGRES_*, OPENROUTER_API_KEY, E2B_API_KEY
-
-# Apply database migrations
-uv run autoviz db upgrade
-
-# Start dev server
-cd ..
-make run
 ```
 
-**Backend:** http://localhost:8000  
-**API docs:** http://localhost:8000/docs
+Replace every marked value in `.env`. In particular, generate a unique `SECRET_KEY` of
+at least 32 characters and add `MODAL_TOKEN_ID` and `MODAL_TOKEN_SECRET`. A project-level
+OpenRouter key is optional when users provide their own key in the UI.
 
-### 3. Frontend
+### 2. Start PostgreSQL and the backend
+
+```bash
+make docker-db
+cd backend
+uv sync
+uv run autoviz db upgrade
+uv run autoviz server run --reload
+```
+
+- Backend: http://localhost:8000
+- API documentation: http://localhost:8000/docs
+
+### 3. Start the frontend
 
 ```bash
 cd frontend
@@ -111,89 +124,72 @@ bun install
 bun dev
 ```
 
-**Frontend:** http://localhost:3000
+The frontend runs at http://localhost:3000. Its checked-in development configuration
+targets the local backend; deployment URLs can be overridden with
+`NEXT_PUBLIC_BACKEND_URL`, `NEXT_PUBLIC_WS_URL`, and `BACKEND_URL`.
 
-### 4. Docker (Alternative)
+### Docker alternative
+
+After creating `.env`, start the backend and PostgreSQL with:
 
 ```bash
-make docker-up      # Backend API + PostgreSQL
-make db-init        # Apply migrations
-# Then: cd frontend && bun dev
+make docker-up
+make db-init
 ```
 
----
-
-## Addresses
-
-| Environment | Frontend | Backend | API Docs |
-|-------------|----------|---------|----------|
-| **Local** | http://localhost:3000 | http://localhost:8000 | http://localhost:8000/docs |
-| **Production** | [autoviz-fyp4502.web.app](https://autoviz-fyp4502.web.app/) | [Cloud Run](https://fyp4502-backend-137393663085.asia-east1.run.app) | *(hidden)* |
-
----
+Then run the frontend locally as shown above, or use `docker-compose.frontend.yml`.
 
 ## Project Structure
 
-```
-autoviz/
-├── backend/app/
-│   ├── api/routes/v1/    # HTTP + WebSocket endpoints
-│   ├── agents/           # PydanticAI agents (viz, report, feature_engineer, quiz, …)
-│   ├── pipelines/        # Orchestration (visualization, feature_engineer, url_ingest, tabular_upload)
-│   ├── services/         # Business logic + analytics
-│   ├── repositories/     # DB queries (analytics, visualization, report, …)
-│   ├── db/models/        # SQLAlchemy models
-│   └── commands/         # CLI sub-commands (auto-discovered)
-├── frontend/             # Next.js 15 app (chat, analysis, dashboard, auth, i18n)
-├── docs/                 # Architecture, patterns, testing guides
-└── docker-compose.yml
+```text
+Autoviz/
+├── backend/
+│   ├── app/api/routes/v1/  # HTTP and WebSocket endpoints
+│   ├── app/agents/         # PydanticAI agents
+│   ├── app/pipelines/      # Ingestion, feature engineering, visualization
+│   ├── app/services/       # Business logic, Modal execution, analytics
+│   ├── app/repositories/   # Database access
+│   ├── app/db/models/      # SQLModel models
+│   └── tests/
+├── frontend/               # Next.js application, auth, chat, analysis, i18n
+├── docker-compose.yml
+└── Makefile
 ```
 
----
-
-## Common Commands
+## Quality Checks
 
 ```bash
 # Backend
 cd backend
-uv run autoviz server run --reload          # Dev server
-uv run autoviz db upgrade                   # Apply migrations
-uv run autoviz db migrate -m "description"  # New migration
-uv run ruff check app tests cli --fix && uv run ruff format app tests cli
+uv run ruff check app tests cli
+uv run ruff format --check app tests cli
 uv run mypy app
-uv run pytest tests/ -v
+uv run pytest tests -v
 
 # Frontend
 cd frontend
-bun dev
+bun run format:check
 bun run type-check
-bun run lint
-bun test
+bun run test:run
 ```
 
 ## Deployment
 
-```bash
-# Backend → Google Cloud Run
-make docker-gcr
+The Dockerized application is deployed on GCP and serves more than 100 users. The
+existing hosted build is available at the
+[Out of Bits live application](https://autoviz-fyp4502.web.app/), backed by the configured
+[Cloud Run service](https://fyp4502-backend-137393663085.asia-east1.run.app). These URLs
+retain legacy external resource identifiers so the live application continues to work.
 
-# Frontend → Firebase Hosting
+The repository includes helpers for the currently configured Google Cloud and Firebase
+projects:
+
+```bash
+make docker-gcr
 make deploy-frontend
 ```
 
----
-
-## Team
-
-| Name | Student ID |
-|------|------------|
-| Han Yuxin | 3035974511 |
-| Huang Yichong | 3035974406 |
-| Lu Bo | 3036104046 |
-| Li Yongyan | 3033108106 |
-
----
-
-## License
-
-MIT
+`make docker-gcr` builds and pushes the backend image to the configured Artifact Registry;
+it does not run the Cloud Run release step. `make deploy-frontend` builds the static
+Next.js export and deploys it with the root Firebase configuration. Review the Makefile,
+Firebase project mapping, and environment-specific URLs before targeting new resources.

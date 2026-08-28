@@ -2,9 +2,9 @@
 
 ## Project Overview
 
-**AutoViz** — an AI-powered data visualization platform. Users upload CSV/JSON data or provide a URL and receive chart recommendations, rendered visualizations, and insight reports via a multi-agent pipeline. Supports guest mode, i18n (EN/ZH), and analytics tracking.
+**Out of Bits** — an AI-powered data visualization platform. Users upload CSV/JSON data or provide a URL and receive chart recommendations, rendered visualizations, and insight reports via a multi-agent pipeline. Supports guest mode, i18n (EN/ZH), and analytics tracking.
 
-**Stack:** FastAPI (Python 3.12+) + Next.js 15 (React 19, TypeScript) + PostgreSQL + PydanticAI + e2b code interpreter (CJK template)
+**Stack:** FastAPI (Python 3.12+) + Next.js 15 (React 19, TypeScript) + PostgreSQL + PydanticAI + Modal Sandboxes (CJK-capable image)
 
 ---
 
@@ -83,7 +83,7 @@ HTTP Request → API Route → Service → Repository → Database
                               ↓
               WebSocket ← Agent Pipeline ← AI Agents (PydanticAI)
                               ↓
-                         e2b Sandbox (code execution)
+                       Modal Sandbox (code execution)
 ```
 
 ### Backend (`backend/app/`)
@@ -125,7 +125,7 @@ backend/app/
 │   └── base.py
 ├── services/             # Business logic
 │   ├── viz_agent_manager.py   # SubAgentManager, HistoryManager
-│   ├── sandbox_service.py     # e2b sandbox wrapper
+│   ├── sandbox_service.py     # Modal sandbox wrapper
 │   ├── report_export_service.py # PDF/DOCX export
 │   ├── analytics_service.py   # Fire-and-forget pipeline analytics
 │   ├── conversation.py
@@ -238,20 +238,23 @@ When adding agent tools, the docstring is the tool description sent to the LLM �
 For each turn (1..VIZ_TURNS):
   1. viz_main_agent        → plans VIZ_TARGET_CHARTS tasks
   2. viz_selector          → filters by feasibility + information gain (optional)
-  3. viz_sub_agent         → generates Python code, runs in e2b sandbox, produces PNG
+  3. viz_sub_agent         → generates Python code, runs in Modal sandbox, produces PNG
   4. viz_critic_agent      → accepts or rejects each chart (code retry / chart change)
   5. viz_annotation_agent  → writes annotation for accepted charts
   6. report_agent          → synthesizes all annotations into structured report
 ```
 
 **Ingestion pipelines:**
+
 - `tabular_upload.py` — handles CSV and JSON file uploads (unified entry point)
 - `url_ingest.py` — fetches and parses data from a URL, with fallback to raw text
 
 **Analytics** (`services/analytics_service.py`):
+
 - Fire-and-forget: logs `PipelineRun` (timing, chart counts) and `BehaviorEvent` (agent actions) asynchronously — never blocks the main pipeline
 
 Key config knobs (in `core/config.py` / `.env`):
+
 - `VIZ_TARGET_CHARTS` — charts per turn (default 10)
 - `VIZ_TURNS` — planning turns; total = `VIZ_TARGET_CHARTS × VIZ_TURNS`
 - `VIZ_CONCURRENCY` — parallel sandbox tasks
@@ -273,7 +276,7 @@ Key config knobs (in `core/config.py` / `.env`):
 
 ## Environment Variables
 
-Copy `backend/.env` and fill in secrets. Key variables:
+Copy the root example with `cp .env.example .env` and fill in secrets. Key variables:
 
 ```bash
 # Database
@@ -284,16 +287,17 @@ POSTGRES_PASSWORD=your_password
 POSTGRES_DB=autoviz
 
 # JWT
-SECRET_KEY=your_secret_key
+SECRET_KEY=your_unique_random_secret_of_at_least_32_characters
 ACCESS_TOKEN_EXPIRE_MINUTES=10080   # 7 days
 
 # AI (OpenRouter)
 OPENROUTER_API_KEY=sk-or-...
 AI_MODEL=anthropic/claude-3.5-sonnet
 
-# e2b (sandboxed code execution)
-E2B_API_KEY=e2b_...
-E2B_TEMPLATE_ID=autoviz-cjk         # Custom template with CJK fonts
+# Modal (sandboxed code execution)
+MODAL_TOKEN_ID=your_modal_token_id
+MODAL_TOKEN_SECRET=your_modal_token_secret
+MODAL_APP_NAME=autoviz
 
 # CORS
 CORS_ORIGINS=["http://localhost:3000"]
@@ -329,12 +333,12 @@ uv run autoviz db upgrade
 
 ## Docker
 
-| File | Purpose |
-|---|---|
-| `docker-compose.yml` | Backend dev stack (API + PostgreSQL) |
-| `docker-compose.frontend.yml` | Frontend dev container |
-| `docker-compose.prod.yml` | Production stack with Traefik reverse proxy |
-| `docker-compose.dev.yml` | Alternative dev configuration |
+| File                          | Purpose                                     |
+| ----------------------------- | ------------------------------------------- |
+| `docker-compose.yml`          | Backend dev stack (API + PostgreSQL)        |
+| `docker-compose.frontend.yml` | Frontend dev container                      |
+| `docker-compose.prod.yml`     | Production stack with Traefik reverse proxy |
+| `docker-compose.dev.yml`      | Alternative dev configuration               |
 
 ---
 

@@ -72,7 +72,7 @@ const T: Record<Lang, Translations> = {
     heroEyebrow: "AI-powered data analysis",
     heroHeadline: "From CSV/JSON\nTo Insight,\nAutomatically.",
     heroSub:
-      "Upload your data. AutoViz plans visualizations, generates chart code in a sandboxed AI pipeline, and delivers a structured insight report — no coding required.",
+      "Upload your data. Out of Bits plans visualizations, generates chart code in a Modal-powered AI pipeline, and delivers a structured insight report — no coding required.",
     heroCta: "Start Analyzing",
     heroCtaSecondary: "View Dashboard",
     heroCtaRegister: "Create Free Account",
@@ -82,13 +82,13 @@ const T: Record<Lang, Translations> = {
       {
         num: "01",
         title: "Upload Your Data File",
-        desc: "Drop in a CSV or JSON file. AutoViz normalizes tabular structure, reads columns, data types, and distributions before visualization begins.",
+        desc: "Drop in a CSV or JSON file. Out of Bits normalizes tabular structure, reads columns, data types, and distributions before visualization begins.",
         icon: Upload,
       },
       {
         num: "02",
         title: "AI Plans & Generates Charts",
-        desc: "A multi-agent pipeline decides which visualizations to create, writes Python code, runs it in a secure isolated sandbox, and iteratively refines each chart.",
+        desc: "A multi-agent pipeline decides which visualizations to create, writes Python code, runs it in a secure Modal Sandbox, and iteratively refines each chart.",
         icon: Bot,
       },
       {
@@ -99,7 +99,7 @@ const T: Record<Lang, Translations> = {
       },
     ],
     demoEyebrow: "See it in action",
-    demoTitle: "Watch AutoViz Work",
+    demoTitle: "Watch Out of Bits Work",
     demoPlaceholder: "Video demonstration coming soon",
     featuresEyebrow: "What makes it different",
     featuresTitle: "Built for Real Analysis",
@@ -110,8 +110,8 @@ const T: Record<Lang, Translations> = {
         icon: Sparkles,
       },
       {
-        title: "Sandboxed Execution",
-        desc: "All generated Python code runs in an isolated environment — safe, reproducible, and independent of your local system.",
+        title: "Modal Sandbox Execution",
+        desc: "Generated Python code runs in an isolated Modal Sandbox, independent of your local system.",
         icon: Shield,
       },
       {
@@ -141,7 +141,7 @@ const T: Record<Lang, Translations> = {
     heroEyebrow: "AI 驱动的数据分析",
     heroHeadline: "从 CSV/JSON\n到洞察，\n全自动。",
     heroSub:
-      "上传数据文件，AutoViz 自动规划可视化方案，在沙盒中生成并执行图表代码，输出结构化洞察报告——无需编写任何代码。",
+      "上传数据文件，Out of Bits 自动规划可视化方案，在 Modal 沙盒中生成并执行图表代码，输出结构化洞察报告——无需编写任何代码。",
     heroCta: "开始分析",
     heroCtaSecondary: "查看仪表盘",
     heroCtaRegister: "免费注册",
@@ -151,13 +151,13 @@ const T: Record<Lang, Translations> = {
       {
         num: "01",
         title: "上传数据文件",
-        desc: "拖入 CSV 或 JSON 文件，AutoViz 自动标准化并解析列名、数据类型和分布，在开始可视化之前全面理解数据集结构。",
+        desc: "拖入 CSV 或 JSON 文件，Out of Bits 自动标准化并解析列名、数据类型和分布，在开始可视化之前全面理解数据集结构。",
         icon: Upload,
       },
       {
         num: "02",
         title: "AI 规划并生成图表",
-        desc: "多智能体流水线规划可视化方案、生成 Python 代码、在安全隔离的沙盒中执行，并自动迭代优化每张图表。",
+        desc: "多智能体流水线规划可视化方案、生成 Python 代码、在安全隔离的 Modal 沙盒中执行，并自动迭代优化每张图表。",
         icon: Bot,
       },
       {
@@ -168,7 +168,7 @@ const T: Record<Lang, Translations> = {
       },
     ],
     demoEyebrow: "效果展示",
-    demoTitle: "观看 AutoViz 运行",
+    demoTitle: "观看 Out of Bits 运行",
     demoPlaceholder: "视频演示即将上线",
     featuresEyebrow: "核心差异化",
     featuresTitle: "为真实分析构建",
@@ -229,7 +229,7 @@ export function LandingPage() {
       <nav className="border-foreground bg-background sticky top-0 z-50 border-b-[3px]">
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <span className="font-display text-foreground text-xl font-black tracking-tight uppercase">
-            AUTOVIZ
+            OUT OF BITS
           </span>
 
           <div className="flex items-center gap-3">
@@ -420,12 +420,7 @@ export function LandingPage() {
         </header>
 
         <div className="border-border aspect-video w-full overflow-hidden border-2 bg-black">
-          <video
-            src="/demo.mp4"
-            controls
-            className="h-full w-full"
-            aria-label={t.demoTitle}
-          />
+          <video src="/demo.mp4" controls className="h-full w-full" aria-label={t.demoTitle} />
         </div>
       </section>
 
@@ -510,7 +505,7 @@ export function LandingPage() {
       <footer className="border-border bg-surface border-t">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 sm:px-6 lg:px-8">
           <span className="font-display text-muted text-sm font-black tracking-tight uppercase">
-            AUTOVIZ
+            OUT OF BITS
           </span>
           <span className="text-muted/50 font-mono text-[10px] tracking-widest uppercase">
             © 2025

@@ -45,7 +45,9 @@ export function LoginForm() {
       {/* Left panel — dark, decorative */}
       <div className="bg-foreground hidden flex-col justify-between p-10 md:flex">
         <div>
-          <p className="text-muted font-mono text-[9px] tracking-[3px] uppercase">AutoViz · v2.0</p>
+          <p className="text-muted font-mono text-[9px] tracking-[3px] uppercase">
+            Out of Bits · v2.0
+          </p>
         </div>
         <div>
           <h1 className="font-display text-background text-5xl leading-tight font-black tracking-tight whitespace-pre-line uppercase">

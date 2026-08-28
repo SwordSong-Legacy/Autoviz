@@ -1,6 +1,6 @@
 """Feature engineering pipeline.
 
-Orchestrates: LLM code generation from CSV summary -> E2B sandbox execution -> enhanced df.
+Orchestrates: LLM code generation from CSV summary -> Modal sandbox execution -> enhanced df.
 """
 
 from collections.abc import Callable
@@ -22,7 +22,7 @@ async def run_feature_engineering(
     """Run full feature engineering pipeline.
 
     1. Generate Python code from CSV summary via LLM.
-    2. Execute code in E2B sandbox with preprocessed CSV.
+    2. Execute code in a Modal sandbox with preprocessed CSV.
     3. Return enhanced dataframe as CSV string.
 
     Args:

@@ -4,8 +4,8 @@ import { Providers } from "./providers";
 import { SurveyButton } from "@/components/layout";
 
 export const metadata: Metadata = {
-  title: "autoviz",
-  description: "AutoViz - revolution to visualisation",
+  title: "Out of Bits",
+  description: "AI-powered data visualization and insight platform",
 };
 
 export default function RootLayout({

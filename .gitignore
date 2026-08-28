@@ -66,6 +66,7 @@ venv.bak/
 # IDE
 .idea/
 .vscode/
+.claude/
 *.swp
 *.swo
 *~
@@ -105,6 +106,9 @@ Thumbs.db
 
 # Project specific
 backend/tmp/
+node_modules/
+**/node_modules/
+.firebase/
 
 frontend/public/
 

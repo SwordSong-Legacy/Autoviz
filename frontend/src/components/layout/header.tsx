@@ -42,7 +42,7 @@ export function Header() {
             href={ROUTES.HOME}
             className="font-display text-foreground hover:text-accent text-xl font-black tracking-tight uppercase transition-colors"
           >
-            AUTOVIZ
+            OUT OF BITS
           </Link>
         </div>
 

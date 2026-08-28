@@ -1,7 +1,7 @@
 [project]
 name = "autoviz"
 version = "0.1.0"
-description = "AutoViz - revolution to visualisation"
+description = "Out of Bits AI-powered data visualization platform"
 requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [{ name = "LB HYX LYY HYC", email = "feiyilubo@gmail.com" }]

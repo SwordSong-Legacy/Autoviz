@@ -4,7 +4,7 @@ This file provides guidance for AI coding agents (Codex, Copilot, Cursor, Zed, O
 
 ## Project Overview
 
-**autoviz** - FastAPI application.
+**Out of Bits** - FastAPI and Next.js data visualization application.
 
 **Stack:** FastAPI + Pydantic v2, PostgreSQL, Next.js 15
 

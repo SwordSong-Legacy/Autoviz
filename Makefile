@@ -150,7 +150,7 @@ frontend-build:
 	cd frontend && bun run build
 
 firebase-deploy:
-	cd frontend && firebase deploy
+	firebase deploy
 
 deploy-frontend: frontend-build firebase-deploy
 	@echo ""
@@ -177,7 +177,7 @@ clean:
 # === Help ===
 help:
 	@echo ""
-	@echo "autoviz - Available Commands"
+	@echo "Out of Bits - Available Commands"
 	@echo "======================================"
 	@echo ""
 	@echo "Setup:"
