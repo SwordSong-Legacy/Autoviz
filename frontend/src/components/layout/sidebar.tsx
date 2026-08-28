@@ -25,7 +25,7 @@ export function Sidebar() {
       >
         <SheetHeader className="border-foreground flex h-14 flex-row items-center justify-between border-b-[3px] px-4">
           <SheetTitle className="font-display text-foreground text-xl font-black tracking-tight uppercase">
-            OUT OF BITS
+            AUTOVIZ
           </SheetTitle>
           <SheetClose
             onClick={close}

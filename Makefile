@@ -177,7 +177,7 @@ clean:
 # === Help ===
 help:
 	@echo ""
-	@echo "Out of Bits - Available Commands"
+	@echo "Autoviz - Available Commands"
 	@echo "======================================"
 	@echo ""
 	@echo "Setup:"

@@ -64,7 +64,7 @@ const nextConfig: NextConfig = {
 
   // Environment variables available on both server and client
   publicRuntimeConfig: {
-    appName: "Out of Bits",
+    appName: "Autoviz",
   },
 };
 

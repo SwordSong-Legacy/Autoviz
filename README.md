@@ -17,9 +17,16 @@ full-stack workflows in a production deployment serving more than 100 users.
 <table>
   <tr>
     <td colspan="2">
-      <img src="assets/readme/visualization-gallery.png" alt="Out of Bits visualization results gallery" width="100%" />
+      <img src="assets/readme/visualization-gallery.png" alt="Autoviz visualization results gallery" width="100%" />
       <br />
       <sub><strong>Visualization gallery.</strong> Review generated charts together, search results, and surface pipeline issues.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <img src="assets/readme/structured-report.png" alt="Autoviz structured insight report with generated charts and narrative findings" width="100%" />
+      <br />
+      <sub><strong>Structured report.</strong> Consolidate generated visualizations and AI-written findings into a reviewable insight summary.</sub>
     </td>
   </tr>
   <tr>
@@ -29,7 +36,7 @@ full-stack workflows in a production deployment serving more than 100 users.
       <sub><strong>Chart-level insight.</strong> Open a generated visualization beside its AI-written interpretation and download controls.</sub>
     </td>
     <td width="50%">
-      <img src="assets/readme/conversational-chart-generation.png" alt="Conversational chart generation in Out of Bits" width="100%" />
+      <img src="assets/readme/conversational-chart-generation.png" alt="Conversational chart generation in Autoviz" width="100%" />
       <br />
       <sub><strong>Conversational analysis.</strong> Request a chart in natural language and receive the generated result in the same analysis thread.</sub>
     </td>
@@ -201,7 +208,7 @@ bun run test:run
 
 The Dockerized application is deployed on GCP and serves more than 100 users. The
 existing hosted build is available at the
-[Out of Bits live application](https://autoviz-fyp4502.web.app/), backed by the configured
+[Autoviz live application](https://autoviz-fyp4502.web.app/), backed by the configured
 [Cloud Run service](https://fyp4502-backend-137393663085.asia-east1.run.app). These URLs
 retain legacy external resource identifiers so the live application continues to work.
 

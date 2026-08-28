@@ -578,7 +578,7 @@ export function ProcessingSteps({ analysisId }: { analysisId?: string | null }) 
             <BarChart3 className="text-background h-8 w-8" />
           </div>
           <h1 className="font-display text-foreground text-5xl font-black tracking-tight uppercase">
-            Out of Bits
+            Autoviz
           </h1>
           <p className="text-muted mt-3 font-sans text-xs tracking-widest uppercase">
             {t.chat.platformTagline}

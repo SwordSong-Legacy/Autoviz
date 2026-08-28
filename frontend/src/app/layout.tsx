@@ -4,7 +4,7 @@ import { Providers } from "./providers";
 import { SurveyButton } from "@/components/layout";
 
 export const metadata: Metadata = {
-  title: "Out of Bits",
+  title: "Autoviz",
   description: "AI-powered data visualization and insight platform",
 };
 

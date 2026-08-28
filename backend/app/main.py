@@ -72,7 +72,7 @@ def create_app() -> FastAPI:
         title=settings.PROJECT_NAME,
         summary="AI-powered data visualization and insight platform",
         description="""
-Out of Bits turns tabular data into reviewed visualizations and structured insights.
+Autoviz turns tabular data into reviewed visualizations and structured insights.
 
 ## Features
 - **Database**: Async database operations

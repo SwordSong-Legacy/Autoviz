@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**Out of Bits** — an AI-powered data visualization platform. Users upload CSV/JSON data or provide a URL and receive chart recommendations, rendered visualizations, and insight reports via a multi-agent pipeline. Supports guest mode, i18n (EN/ZH), and analytics tracking.
+**Autoviz** — an AI-powered data visualization platform. Users upload CSV/JSON data or provide a URL and receive chart recommendations, rendered visualizations, and insight reports via a multi-agent pipeline. Supports guest mode, i18n (EN/ZH), and analytics tracking.
 
 **Stack:** FastAPI (Python 3.12+) + Next.js 15 (React 19, TypeScript) + PostgreSQL + PydanticAI + Modal Sandboxes (CJK-capable image)
 

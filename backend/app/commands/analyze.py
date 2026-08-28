@@ -1,6 +1,6 @@
 """Analyze command: local CSV visualization + report pipeline.
 
-Called by cli/commands.py analyze group. Runs the full Out of Bits pipeline
+Called by cli/commands.py analyze group. Runs the full Autoviz pipeline
 (preprocess → feature eng → visualize → report) without a DB or server.
 """
 
@@ -39,7 +39,7 @@ def _build_viz_properties(results: list[VizResult]) -> list[VizProperty]:
 
 def _report_to_markdown(report: DataReport) -> str:
     lines = [
-        "# Out of Bits Analysis Report",
+        "# Autoviz Analysis Report",
         "",
         "## Dataset Overview",
         "",
@@ -75,7 +75,7 @@ async def _save_report(
     output_dir: Path,
     fmt: str,
 ) -> None:
-    click.echo("[Out of Bits] Generating report...")
+    click.echo("[Autoviz] Generating report...")
     try:
         report = await generate_report(csv_summary, viz_props)
         if fmt == "json":
@@ -84,9 +84,9 @@ async def _save_report(
         else:
             report_path = output_dir / "report.md"
             report_path.write_text(_report_to_markdown(report), encoding="utf-8")
-        click.secho(f"[Out of Bits] Report saved to {report_path}", fg="green")
+        click.secho(f"[Autoviz] Report saved to {report_path}", fg="green")
     except Exception as e:
-        click.secho(f"[Out of Bits] Report generation failed: {e}", fg="red")
+        click.secho(f"[Autoviz] Report generation failed: {e}", fg="red")
         logger.exception("Report generation error")
 
 
@@ -104,20 +104,20 @@ async def run_analyze_pipeline(
     charts_dir.mkdir(parents=True, exist_ok=True)
 
     # 1. Parse CSV
-    click.echo(f"[Out of Bits] Parsing CSV: {csv_path.name}")
+    click.echo(f"[Autoviz] Parsing CSV: {csv_path.name}")
     try:
         csv_content = csv_path.read_text(encoding="utf-8")
     except Exception as e:
-        click.secho(f"[Out of Bits] Cannot read file: {e}", fg="red")
+        click.secho(f"[Autoviz] Cannot read file: {e}", fg="red")
         return
 
     csv_summary, preprocessed_csv = preprocess_csv_with_data(csv_content)
     if csv_summary.error:
-        click.secho(f"[Out of Bits] CSV parse failed: {csv_summary.error}", fg="red")
+        click.secho(f"[Autoviz] CSV parse failed: {csv_summary.error}", fg="red")
         return
 
     click.echo(
-        f"[Out of Bits] CSV parsed: {csv_summary.row_count:,} rows, {csv_summary.column_count} columns"
+        f"[Autoviz] CSV parsed: {csv_summary.row_count:,} rows, {csv_summary.column_count} columns"
     )
     (output_dir / _SUMMARY_FILE).write_text(
         json.dumps(csv_summary.to_dict(), indent=2), encoding="utf-8"
@@ -126,7 +126,7 @@ async def run_analyze_pipeline(
     # 2. Feature engineering
     enhanced_csv = preprocessed_csv
     if not no_feature_eng:
-        click.echo("[Out of Bits] Feature engineering...")
+        click.echo("[Autoviz] Feature engineering...")
         try:
             enhanced_csv = await run_feature_engineering(
                 csv_summary,
@@ -140,16 +140,16 @@ async def run_analyze_pipeline(
                 (output_dir / _SUMMARY_FILE).write_text(
                     json.dumps(csv_summary.to_dict(), indent=2), encoding="utf-8"
                 )
-            click.echo("[Out of Bits] Feature engineering done")
+            click.echo("[Autoviz] Feature engineering done")
         except Exception as e:
             click.secho(
-                f"[Out of Bits] Feature engineering failed ({e}), continuing with original CSV",
+                f"[Autoviz] Feature engineering failed ({e}), continuing with original CSV",
                 fg="yellow",
             )
             enhanced_csv = preprocessed_csv
 
     # 3. Run visualization pipeline
-    click.echo(f"[Out of Bits] Generating up to {target_charts} chart(s)...")
+    click.echo(f"[Autoviz] Generating up to {target_charts} chart(s)...")
 
     done_count = 0
     skip_count = 0
@@ -178,7 +178,7 @@ async def run_analyze_pipeline(
     )
 
     click.secho(
-        f"[Out of Bits] Done: {done_count} chart(s) saved to {charts_dir}, {skip_count} skipped",
+        f"[Autoviz] Done: {done_count} chart(s) saved to {charts_dir}, {skip_count} skipped",
         fg="green",
     )
 
@@ -205,7 +205,7 @@ async def run_analyze_pipeline(
         if viz_props:
             await _save_report(csv_summary, viz_props, output_dir, report_format)
         else:
-            click.secho("[Out of Bits] No accepted charts; skipping report.", fg="yellow")
+            click.secho("[Autoviz] No accepted charts; skipping report.", fg="yellow")
 
 
 async def run_report_only(output_dir: Path, fmt: str) -> None:
@@ -214,11 +214,11 @@ async def run_report_only(output_dir: Path, fmt: str) -> None:
     metadata_path = output_dir / _METADATA_FILE
 
     if not summary_path.exists():
-        click.secho(f"[Out of Bits] {_SUMMARY_FILE} not found in {output_dir}", fg="red")
+        click.secho(f"[Autoviz] {_SUMMARY_FILE} not found in {output_dir}", fg="red")
         click.echo("Run 'autoviz analyze run <file.csv>' first.")
         return
     if not metadata_path.exists():
-        click.secho(f"[Out of Bits] {_METADATA_FILE} not found in {output_dir}", fg="red")
+        click.secho(f"[Autoviz] {_METADATA_FILE} not found in {output_dir}", fg="red")
         click.echo("Run 'autoviz analyze run <file.csv>' first.")
         return
 
@@ -235,7 +235,7 @@ async def run_report_only(output_dir: Path, fmt: str) -> None:
     ]
 
     if not viz_props:
-        click.secho("[Out of Bits] No charts found in metadata; nothing to report.", fg="yellow")
+        click.secho("[Autoviz] No charts found in metadata; nothing to report.", fg="yellow")
         return
 
     await _save_report(csv_summary, viz_props, output_dir, fmt)

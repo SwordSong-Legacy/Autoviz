@@ -29,7 +29,7 @@ class Settings(BaseSettings):
     )
 
     # === Project ===
-    PROJECT_NAME: str = "autoviz"
+    PROJECT_NAME: str = "Autoviz"
     API_V1_STR: str = "/api/v1"
     DEBUG: bool = False
     ENVIRONMENT: Literal["development", "local", "staging", "production"] = "local"
